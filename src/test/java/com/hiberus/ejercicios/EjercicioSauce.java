@@ -29,38 +29,34 @@ public class EjercicioSauce {
         driver.manage().window().maximize();
 
         wait = new WebDriverWait(driver, 10, 500);
+
+             //PRC-Login para pagina Sauce
+            //Paso1. Ir a la página https://www.saucedemo.com
+            driver.get("https://www.saucedemo.com");
+
+            //Paso2. Escribir el username standard_user
+            WebElement inputUsername=driver.findElement(By.id("user-name"));
+            inputUsername.sendKeys("standard_user");
+
+            //Paso3. Escribir el password secret_sauce
+            WebElement inputPassword=driver.findElement(By.id("password"));
+            inputPassword.sendKeys("secret_sauce");
+
+            //Paso4. Pulsar en el botón del Login.
+            WebElement buttonLogin=driver.findElement(By.id("login-button"));
+            buttonLogin.click();
     }
 
-    @Test
-    public void EjercicioSauce (){
-
+    @Test public void EjercicioSauce (){
 
         driver.get("https://www.saucedemo.com");
         String title = driver.getTitle();
         System.out.println(title);
         int titleLength = title.length();
         System.out.println(titleLength);
-        //Ejercicio2
-
-
     }
-@Test
-public  void LoginSauce(){
 
-    //Paso1. Ir a la página https://www.saucedemo.com
-driver.get("https://www.saucedemo.com");
-
-    //Paso2. Escribir el username standard_user
-    WebElement inputUsername=driver.findElement(By.id("user-name"));
-    inputUsername.sendKeys("standard_user");
-
-    //Paso3. Escribir el password secret_sauce
-    WebElement inputPassword=driver.findElement(By.id("password"));
-    inputPassword.sendKeys("secret_sauce");
-
-    //Paso4. Pulsar en el botón del Login.
-WebElement buttonLogin=driver.findElement(By.id("login-button"));
-buttonLogin.click();
+@Test public void LoginSauce(){
 
     //Paso5. Validar que hemos accedido correctamente a la página
     driver.get("https://www.saucedemo.com/inventory.html");
@@ -70,8 +66,50 @@ buttonLogin.click();
     } else {
         System.out.println("No se ha accedido correctamente a la página.");
     }
-
 }
+
+//Inventario TS
+@Test public void validarElNumeroDeResultados(){
+    //Paso5. Validar que el número de productos mostrados es igual a 6
+    java.util.List<WebElement> productList = driver.findElements(By.className("inventory_item"));
+
+    if (productList.size() == 6) {
+        System.out.println("El número de productos mostrados es igual a 6.");
+    } else {
+        System.out.println("El número de productos mostrados NO es igual a 6.");
+    }
+}
+@Test public void incrementoDelValorDelCarrito(){
+   //Paso 5. Agregar al carrito el producto Sauce Labs Bolt T-Shirt
+    WebElement addToCartButton = driver.findElement(By.id("add-to-cart-sauce-labs-bolt-t-shirt"));
+    addToCartButton.click();
+
+    // Paso6. Validamos que en el icono del carrito se ha agregado el valor 1.
+    //Localizar el carrito
+   WebElement cartIcon = driver.findElement(By.className("shopping_cart_badge"));
+
+// Validar que se ha agregado 1 producto
+    String cartItemCount = cartIcon.getText();
+    if (cartItemCount.equals("1")) {
+        System.out.println("Se ha agregado correctamente 1 producto al carrito.");
+    } else {
+        System.out.println("No se ha agregado ningún producto al carrito o el valor es incorrecto.");
+    }
+}
+@Test public void validarElBotonEliminar(){
+
+    //Paso5. Agregar al carrito el producto Sauce Labs Onesie
+WebElement addToCardButton=driver.findElement(By.id("add-to-cart-sauce-labs-onesie"));
+addToCardButton.click();
+
+    //Paso6. Validamos que, al agregar el producto, se visualiza el botón REMOVE
+    if (driver.findElement(By.id("remove-sauce-labs-onesie")).isDisplayed()) {
+        System.out.println("Se visualiza correctamente el botón 'REMOVE' después de agregar el producto.");
+    } else {
+        System.out.println("No se visualiza el botón 'REMOVE' después de agregar el producto.");
+    }
+}
+
     @After
     public void tearDown() {
         driver.close();
