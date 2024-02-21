@@ -5,12 +5,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
 
 public class EjercicioSauce {
 
@@ -47,7 +50,7 @@ public class EjercicioSauce {
             buttonLogin.click();
     }
 
-    @Test public void EjercicioSauce (){
+    @Test public void Sauce(){
 
         driver.get("https://www.saucedemo.com");
         String title = driver.getTitle();
@@ -72,12 +75,13 @@ public class EjercicioSauce {
 @Test public void validarElNumeroDeResultados(){
     //Paso5. Validar que el número de productos mostrados es igual a 6
     java.util.List<WebElement> productList = driver.findElements(By.className("inventory_item"));
-
-    if (productList.size() == 6) {
+    /*if (productList.size() == 6) {
         System.out.println("El número de productos mostrados es igual a 6.");
     } else {
         System.out.println("El número de productos mostrados NO es igual a 6.");
-    }
+    }*/
+    assertEquals(6, productList.size());
+    System.out.println("La lista contiene 6 items");
 }
 @Test public void incrementoDelValorDelCarrito(){
    //Paso 5. Agregar al carrito el producto Sauce Labs Bolt T-Shirt
@@ -95,13 +99,12 @@ public class EjercicioSauce {
     } else {
         System.out.println("No se ha agregado ningún producto al carrito o el valor es incorrecto.");
     }
+
 }
 @Test public void validarElBotonEliminar(){
-
     //Paso5. Agregar al carrito el producto Sauce Labs Onesie
 WebElement addToCardButton=driver.findElement(By.id("add-to-cart-sauce-labs-onesie"));
 addToCardButton.click();
-
     //Paso6. Validamos que, al agregar el producto, se visualiza el botón REMOVE
     if (driver.findElement(By.id("remove-sauce-labs-onesie")).isDisplayed()) {
         System.out.println("Se visualiza correctamente el botón 'REMOVE' después de agregar el producto.");
@@ -110,6 +113,32 @@ addToCardButton.click();
     }
 }
 
+
+@Test public void EliminarProductoDelCarito(){
+    try {
+        WebElement addToCardButon = driver.findElement(By.id("add-to-cart-sauce-labs-onesie"));
+        addToCardButon.click();
+
+        WebElement removeToCardButon = driver.findElement(By.id("remove-sauce-labs-onesie"));
+        removeToCardButon.click();
+
+        WebElement cartIcon = driver.findElement(By.id("shopping_cart_container"));
+        String cartItemCount = cartIcon.getText();
+
+        assert cartItemCount.isEmpty() : "El icono de la cesta debería estar limpio, no hay ningún producto agregado.";
+        System.out.println("El icono de la cesta está limpio, no hay ningún producto agregado.");
+    } catch (NoSuchElementException nsee) {
+        System.err.println("No se encontró un elemento esperado: " + nsee.getMessage());
+    }
+}
+
+
+@Test /*public void ejercicioJunit(){
+    String[] nombreEsperados = ("A","B","C");
+    String[] nombreActuales = ("A","B","C");
+    Assert.assertArrayEquals(nombreEsperados=nombreActuales);
+
+}*/
     @After
     public void tearDown() {
         driver.close();
