@@ -47,7 +47,7 @@ public class EjercicioSauce {
             buttonLogin.click();
     }
 
-    @Test public void EjercicioSauce (){
+    @Test public void Ejercicio(){
 
         driver.get("https://www.saucedemo.com");
         String title = driver.getTitle();
