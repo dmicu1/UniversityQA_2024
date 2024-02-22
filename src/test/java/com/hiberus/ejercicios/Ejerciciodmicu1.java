@@ -14,8 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
-
-public class EjercicioSauce {
+public class Ejerciciodmicu1 {
 
     public static WebDriver driver;
 
@@ -48,7 +47,8 @@ public class EjercicioSauce {
             //Paso4. Pulsar en el botón del Login.
             WebElement buttonLogin=driver.findElement(By.id("login-button"));
             buttonLogin.click();
-    }
+        }
+
 
     @Test public void Sauce(){
 
@@ -75,11 +75,13 @@ public class EjercicioSauce {
 @Test public void validarElNumeroDeResultados(){
     //Paso5. Validar que el número de productos mostrados es igual a 6
     java.util.List<WebElement> productList = driver.findElements(By.className("inventory_item"));
-    /*if (productList.size() == 6) {
+    if (productList.size() == 6) {
         System.out.println("El número de productos mostrados es igual a 6.");
     } else {
         System.out.println("El número de productos mostrados NO es igual a 6.");
-    }*/
+           assertEquals(6, productList.size());
+    System.out.println("La lista contiene 6 items");
+    }
     assertEquals(6, productList.size());
     System.out.println("La lista contiene 6 items");
 }
@@ -125,7 +127,7 @@ addToCardButton.click();
         WebElement cartIcon = driver.findElement(By.id("shopping_cart_container"));
         String cartItemCount = cartIcon.getText();
 
-        assert cartItemCount.isEmpty() : "El icono de la cesta debería estar limpio, no hay ningún producto agregado.";
+        assert cartItemCount.isEmpty() : "La cesta esta vacia.";
         System.out.println("El icono de la cesta está limpio, no hay ningún producto agregado.");
     } catch (NoSuchElementException nsee) {
         System.err.println("No se encontró un elemento esperado: " + nsee.getMessage());
@@ -133,12 +135,10 @@ addToCardButton.click();
 }
 
 
-@Test /*public void ejercicioJunit(){
-    String[] nombreEsperados = ("A","B","C");
-    String[] nombreActuales = ("A","B","C");
-    Assert.assertArrayEquals(nombreEsperados=nombreActuales);
 
-}*/
+
+
+
     @After
     public void tearDown() {
         driver.close();
