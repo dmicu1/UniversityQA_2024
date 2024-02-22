@@ -12,9 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-
-public class Agregar3productosalcarito {
+public class Odenaralfabeticamente {
     public static WebDriver driver;
     public static WebDriverWait wait;
 
@@ -47,37 +45,17 @@ public class Agregar3productosalcarito {
         buttonLogin.click();
     }
 
-    @Test
-    public void testAgregarProductosAlCarrito() {
-        agregarProductosAlCarrito();
+@Test public void Ordenaralfabeticamente () {
+    //Paso5.Seleccionar el filtro NAME (Z TO A)
+    WebElement filterDropdown = driver.findElement(By.className("product_sort_container"));
+    filterDropdown.click();
+    WebElement filterOption = driver.findElement(By.xpath("//option[@value='za']"));
+    filterOption.click();
+            //Paso6.Validar que el filtro seleccionado, ordena por el orden alfabético de la Z a la A
 
-        WebElement cartIcon = driver.findElement(By.id("shopping_cart_container"));
-        int itemCount = Integer.parseInt(cartIcon.getText());
-        assertEquals(3, itemCount);
-        System.out.println("Cantidad de productos agregados al carrito: " + itemCount);
-    }
-
-
-
-
+}
     @After
     public void tearDown() {
         driver.quit();
-    }
-
-    private void agregarProductosAlCarrito() {
-        String[] productos = {
-                "#add-to-cart-sauce-labs-backpack",
-                "#add-to-cart-sauce-labs-bike-light",
-                "#add-to-cart-sauce-labs-bolt-t-shirt",
-                "#add-to-cart-sauce-labs-fleece-jacket",
-                "#add-to-cart-sauce-labs-onesie",
-                "#add-to-cart-test"
-        };
-        // Estrategia seleccion producto
-        for (int i = 0; i < 3; i++) {
-            WebElement addToCartButton = driver.findElement(By.cssSelector(productos[i]));
-            addToCartButton.click();
-        }
     }
 }
