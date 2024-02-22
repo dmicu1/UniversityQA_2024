@@ -1,7 +1,9 @@
 package com.hiberus.ejercicios.run;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.bouncycastle.util.StringList;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -11,13 +13,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.assertTrue;
 
-public class odenaralfabeticamente {
+public class odenarAlfabeticamente {
     public static WebDriver driver;
     public static WebDriverWait wait;
 
@@ -53,51 +55,31 @@ public class odenaralfabeticamente {
 
     @Test
     public void testOrdenAlfabetico() {
-        // Paso5. Seleccionar el filtro NAME (Z TO A)
+
+        // Seleccionar el filtro NAME (Z TO A)
         WebElement filterDropdown = driver.findElement(By.className("product_sort_container"));
         filterDropdown.click();
-        WebElement filterOption = driver.findElement(By.xpath("//option[@value='za']"));
+        WebElement filterOption = driver.findElement(By.xpath("//select[@class='product_sort_container']//child::option[@value='za']"));
         filterOption.click();
 
-        // Obtener los nombres de los productos
-        List<WebElement> products = driver.findElements(By.className("inventory_item_name"));
-        List<String> productNames = new ArrayList<>();
-        for (WebElement product : products) {
-            productNames.add(product.getText());
-        }
+        List<WebElement> list= driver.findElements(By.xpath("//div[@class='inventory_list']//div[@class='inventory_item']//descendant::div[@class='inventory_item_name']"));
+        List<String> listZtoA=new ArrayList<>();
+for(WebElement producto : list ){
+    listZtoA.add(producto.getText());
+}
+        List<String> listaordenada=new ArrayList<>(listZtoA);
+        Collections.sort(listaordenada,Collections.reverseOrder());
 
-        // Nombres de los productos proporcionados
-        List<String> providedProductNames = Arrays.asList(
-                "Test.allTheThings() T-Shirt (Red)",
-                "Sauce Labs Onesie",
-                "Sauce Labs Fleece Jacket",
-                "Sauce Labs Bolt T-Shirt",
-                "Sauce Labs Bike Light",
-                "Sauce Labs Backpack"
-        );
+        List<WebElement> actualItemsZA=driver.findElements(By.className("inventory_item"));
+        Assert.assertTrue(listaordenada.equals(listZtoA));
 
-        // Imprimir los nombres de los productos obtenidos
-        System.out.println("Nombres de productos obtenidos:");
-        for (String productName : productNames) {
-            System.out.println(productName);
-        }
-
-        // Validar que los productos están ordenados alfabéticamente de la Z a la A
-        boolean isSortedDescending = isSortedDescending(productNames);
-        assertTrue("Los productos están ordenados alfabéticamente de la Z a la A", isSortedDescending);
     }
 
     @After
-    public void tearDown() {
-        driver.quit();
+        public void tearDown() {
+          // driver.quit();
+        }
+
+
     }
 
-    private boolean isSortedDescending(List<String> list) {
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i - 1).compareTo(list.get(i)) < 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-}

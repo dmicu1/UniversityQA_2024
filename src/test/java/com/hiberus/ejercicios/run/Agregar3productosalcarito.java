@@ -55,10 +55,8 @@ public class Agregar3productosalcarito {
         int itemCount = Integer.parseInt(cartIcon.getText());
         assertEquals(3, itemCount);
         System.out.println("Cantidad de productos agregados al carrito: " + itemCount);
+        //System.out.println();
     }
-
-
-
 
     @After
     public void tearDown() {
