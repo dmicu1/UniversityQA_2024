@@ -64,9 +64,9 @@ public class odenarAlfabeticamente {
 
         List<WebElement> list= driver.findElements(By.xpath("//div[@class='inventory_list']//div[@class='inventory_item']//descendant::div[@class='inventory_item_name']"));
         List<String> listZtoA=new ArrayList<>();
-for(WebElement producto : list ){
-    listZtoA.add(producto.getText());
-}
+        for(WebElement producto : list ){
+         listZtoA.add(producto.getText());
+        }
         List<String> listaordenada=new ArrayList<>(listZtoA);
         Collections.sort(listaordenada,Collections.reverseOrder());
 
